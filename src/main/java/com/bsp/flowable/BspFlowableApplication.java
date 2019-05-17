@@ -2,10 +2,13 @@ package com.bsp.flowable;
 
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
+import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+
+import java.util.List;
 
 @SpringBootApplication
 public class BspFlowableApplication {
@@ -16,16 +19,20 @@ public class BspFlowableApplication {
         RuntimeService runtimeService = app.getBean(RuntimeService.class);
         TaskService taskService = app.getBean(TaskService.class);
 
-//        启动流程
-//        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("PROCESS_1");
-//        System.out.println(processInstance);
-//        System.out.println(processInstance.getId());
+        // 启动流程
+        // ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("PROCESS_1");
+        // System.out.println(processInstance);
+        // System.out.println(processInstance.getId());
 
-        Task task = taskService.createTaskQuery().taskId("d610cbdc-7881-11e9-9948-acde48001122").singleResult();
-        System.out.println(task);
-//      通过审核
-//        taskService.complete(task.getId());
+        // Task task = taskService.createTaskQuery().taskId("d610cbdc-7881-11e9-9948-acde48001122").singleResult();
+        // System.out.println(task);
+        // 通过审核
+        //  taskService.complete(task.getId());
 
+        List<Task> tasks = taskService.createTaskQuery().orderByTaskCreateTime().desc().list();
+        for (Task task : tasks) {
+            System.out.println(task.toString());
+        }
     }
 
 }
