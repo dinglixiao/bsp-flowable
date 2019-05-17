@@ -1,14 +1,15 @@
 package com.bsp.flowable;
 
+import com.google.common.collect.Maps;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
-import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 public class BspFlowableApplication {
@@ -20,19 +21,15 @@ public class BspFlowableApplication {
         TaskService taskService = app.getBean(TaskService.class);
 
         // 启动流程
-        // ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("PROCESS_1");
-        // System.out.println(processInstance);
-        // System.out.println(processInstance.getId());
+        Map<String, Object> map = Maps.newHashMap();
+        // map.put("taskUser", "dinglixiao");
+        // map.put("money", 87);
+        // ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Expense", map);
+        // System.out.println("提交成功.流程Id为：" + processInstance.getId());
 
-        // Task task = taskService.createTaskQuery().taskId("d610cbdc-7881-11e9-9948-acde48001122").singleResult();
-        // System.out.println(task);
-        // 通过审核
-        //  taskService.complete(task.getId());
-
-        List<Task> tasks = taskService.createTaskQuery().orderByTaskCreateTime().desc().list();
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee("dinglixiao").orderByTaskCreateTime().desc().list();
         for (Task task : tasks) {
             System.out.println(task.toString());
         }
     }
-
 }
